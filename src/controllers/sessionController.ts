@@ -9,21 +9,36 @@ export const createSession = async (req: Request, res: Response): Promise<void> 
     const { teacherId, startTime, endTime } = req.body;
 
     if (!teacherId || !startTime || !endTime) {
+      console.error('Failed to create session: teacherId, startTime, and endTime are required');
       res.status(400).json({ error: 'teacherId, startTime, and endTime are required' });
       return;
     }
 
-    const teacher = await Teacher.findById(teacherId);
-    if (!teacher) {
-      res.status(404).json({ error: 'Teacher not found' });
+    if (!mongoose.isObjectIdOrHexString(teacherId)) {
+      console.error('Failed to create session: teacherId must be a valid MongoDB ObjectId');
+      res.status(400).json({ error: 'teacherId must be a valid MongoDB ObjectId' });
       return;
     }
 
     const startDate = new Date(startTime);
     const endDate = new Date(endTime);
 
+    if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) {
+      console.error('Failed to create session: startTime and endTime must be valid dates');
+      res.status(400).json({ error: 'startTime and endTime must be valid dates' });
+      return;
+    }
+
     if (endDate <= startDate) {
+      console.error('Failed to create session: endTime must be greater than startTime');
       res.status(400).json({ error: 'endTime must be greater than startTime' });
+      return;
+    }
+
+    const teacher = await Teacher.findById(teacherId);
+    if (!teacher) {
+      console.error(`Failed to create session: teacher not found (${teacherId})`);
+      res.status(404).json({ error: 'Teacher not found' });
       return;
     }
 
@@ -36,6 +51,7 @@ export const createSession = async (req: Request, res: Response): Promise<void> 
 
     res.status(201).json(session);
   } catch (error) {
+    console.error('Failed to create session:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

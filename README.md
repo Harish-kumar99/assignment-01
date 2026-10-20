@@ -72,11 +72,12 @@ Create a new teacher.
 **POST** `/api/sessions`
 
 Create a new session for a teacher. Default status is AVAILABLE.
+Use the teacher's `_id` returned by **Create Teacher** for `teacherId`.
 
 **Request Body:**
 ```json
 {
-  "teacherId": "teacher_id_here",
+  "teacherId": "the_teacher_id_returned_by_create_teacher",
   "startTime": "2024-01-15T10:00:00Z",
   "endTime": "2024-01-15T11:00:00Z"
 }
