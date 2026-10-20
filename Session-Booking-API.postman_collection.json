@@ -1,0 +1,187 @@
+{
+  "info": {
+    "name": "Session Booking API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create User",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullName\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"1234567890\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "users"]
+        }
+      }
+    },
+    {
+      "name": "Create Teacher",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullName\": \"Jane Smith\",\n  \"email\": \"jane@example.com\",\n  \"specialization\": \"Mathematics\",\n  \"experience\": 5\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/teachers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "teachers"]
+        }
+      }
+    },
+    {
+      "name": "Create Session",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"teacherId\": \"{{teacherId}}\",\n  \"startTime\": \"2024-01-15T10:00:00Z\",\n  \"endTime\": \"2024-01-15T11:00:00Z\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/sessions",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "sessions"]
+        }
+      }
+    },
+    {
+      "name": "Get Available Sessions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/sessions/available?dateTimestamp=1705286400000",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "sessions", "available"],
+          "query": [
+            {
+              "key": "dateTimestamp",
+              "value": "1705286400000",
+              "description": "Unix timestamp for the date (e.g., Jan 15, 2024)"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Book Session",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": \"{{userId}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/sessions/:id/book",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "sessions", ":id", "book"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{sessionId}}",
+              "description": "Session ID to book"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Mark Session Complete",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/sessions/:id/complete",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "sessions", ":id", "complete"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{sessionId}}",
+              "description": "Session ID to complete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get User Sessions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/users/:id/sessions",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "users", ":id", "sessions"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{userId}}",
+              "description": "User ID"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "teacherId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "sessionId",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
